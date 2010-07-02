@@ -30,14 +30,14 @@ Smoke.Mock = function(originalObj) {
 	obj.stub = function(attr){
 		return new Smoke.Stub(this, attr);
 	};
-	
+
 	obj.should_receive = function(attr){
 		var expectation = new Smoke.Mock.Expectation(this, attr);
 		this._expectations[attr] = (this._expectations[attr] || []).concat([expectation]);
-		this._valuesBeforeMocking[attr] = this[attr];
 		if(this._expectations[attr].length == 1) {
-  		this[attr] = Smoke.Mock.Expectation.stub(this, attr);
-		} 
+			this._valuesBeforeMocking[attr] = this[attr];
+			this[attr] = Smoke.Mock.Expectation.stub(this, attr);
+		}
 		return expectation;
 	};
 
